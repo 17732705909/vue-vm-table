@@ -40,13 +40,13 @@
     <div class="box" id="app">
         <div class="add">
             品牌名称:
-            <input type="text">
-            <input type="button" value="添加">
+            <input type="text" v-model="addList" v-focus>
+            <input type="button" value="添加" @click="add()">
         </div>
 
         <div class="add">
             品牌名称:
-            <input type="text" placeholder="请输入搜索条件">
+            <input type="text" v-model="searchList" placeholder="请输入搜索条件">
         </div>
 
         <div>
@@ -57,19 +57,61 @@
                     <th>创立时间</th>
                     <th>操作</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>小米</td>
-                    <td>时间</td>
+                <tr v-for="(item, i) in list" :key="i">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.cTime | myfilter }}</td>
                     <td>
                         <a href="#">删除</a>
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="list.length === 0" >
                     <td colspan="4">无数据</td>
                 </tr>
             </table>
         </div>
     </div>
+    <script src="./vue.js"></script>
+    <script src="./moment.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                {
+                    name: 'TCL',
+                    cTime: new Date()
+                },
+                {
+                    name: '小米',
+                    cTime: new Date()
+                },
+                {
+                    name: '华为',
+                    cTime: new Date()
+                }],
+                addList: '',
+                searchList: ''
+            },
+            methods: {
+                
+            },
+            filters: {
+                myfilter(v) {
+                    return moment(v).format('YYYY-MM-DD hh:mm:ss a')
+                }
+            },
+            directives: {
+                'focus':{ 
+                    inserted(el) {
+                        el.focus()
+                    }
+                }
+            },
+            computed: {
+                
+            }
+        })
+    </script>
 </body>
 </html>
